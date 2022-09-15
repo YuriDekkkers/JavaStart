@@ -1,4 +1,4 @@
-boolean Draw;
+int Draw = 1;
 int x1;
 int y1;
 int x2;
@@ -9,18 +9,23 @@ void setup(){
 }
 
 void draw(){
-  x2 = mouseX;
-  y2 = mouseY;
 
   line(x1,y1,x2,y2);
+
 }
 
 void mouseClicked(){
-  if(Draw){
-    x1 = mouseX;
-    y1 = mouseY;
-    Draw = false;
-  }else if(!Draw){
-    Draw = true;
+  switch(Draw){
+    case 1:
+      x1 = mouseX;
+      y1 = mouseY;
+      Draw = 2;
+      break;
+    case 2:
+      x2 = mouseX;
+      y2 = mouseY;
+      Draw = 1;
+      break;
+    
   }
 }
