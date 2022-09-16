@@ -58,6 +58,7 @@ void setup(){
   stroke(255,255,255);
   strokeWeight(3);
   fill(0,0,0);
+  rect(10,10,980,480,40);
   rect(250,75,500,200,10);
   
   fill(255,255,255);
