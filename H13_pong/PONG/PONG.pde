@@ -51,6 +51,58 @@ int[] scoreArray;
 void setup(){
   size(1000,500);
   background(0,0,0);
+  
+  cp = new ControlP5(this);
+  
+  //logo
+  stroke(255,255,255);
+  strokeWeight(3);
+  fill(0,0,0);
+  rect(250,75,500,200,10);
+  
+  fill(255,255,255);
+  stroke(255,255,255);
+  rect(260,95,480,160);
+  
+  stroke(0,0,0);       
+  for(int i = 0; i < 16; i++){
+    line(i*32+260,95,i*32+260,255);
+  }
+  
+  for(int i = 0; i < 6; i++){
+    line(260,i*32+95,740,i*32+95);
+  }
+  
+  fill(0,0,0);
+  rect(292,191,96,64);
+  rect(292,127,32,32);
+  rect(356,95,32,96);
+  rect(420,127,32,96);
+  rect(484,95,32,160);
+  rect(548,127,32,128);
+  rect(612,95,32,160);
+  rect(676,159,32,64);
+  rect(676,127,64,32);
+  
+  //buttons
+  stroke(255,255,255);
+  rect(275,300,200,75);
+  P1 = cp.addButton("singlePlayer")
+         .setSize(200,75)
+         .setPosition(275,300)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
+         
+  rect(525,300,200,75);
+  P2 = cp.addButton("Two Players")
+         .setSize(200,75)
+         .setPosition(525,300)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
 }
 
 void draw(){
