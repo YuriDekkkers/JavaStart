@@ -42,6 +42,7 @@ int ballY = 250;
 boolean x;
 boolean y;
 int ballSpeed = 7;
+boolean hitable = true;
 
 int paddle1Y = 0;
 int paddle2Y = 0;
@@ -143,7 +144,7 @@ void draw(){
     rect(30,paddle1Y,30,150,10);
     
     //paddle 2
-    rect(920,paddle2Y,30,150,10);
+    rect(940,paddle2Y,30,150,10);
     
     //B A L L
     ellipse(ballX,ballY,50,50);
@@ -169,17 +170,20 @@ void draw(){
   
   //movement ball
   if(countdown <= 0){
+    if(ballX < 30 || ballX > 970){
+      hitable = false;
+    }
+    
+    
     //x movement
-
-      
-      if(ballX > 500){
-        if(ballX >= 895 && (ballY >= paddle2Y && ballY <= (paddle2Y + 150))){
+      if(ballX > 500 && hitable){
+        if(ballX >= 915 && (ballY >= (paddle2Y-25) && ballY <= (paddle2Y + 175))){
           x = false;
         }
       }
       
-      if(ballX < 500){
-        if(ballX <= 105 && (ballY >= paddle1Y && ballY <= (paddle1Y + 150))){
+      if(ballX < 500 && hitable){
+        if(ballX <= 85 && (ballY >= (paddle1Y-25) && ballY <= (paddle1Y + 175))){
           x = true;
         }
       }
