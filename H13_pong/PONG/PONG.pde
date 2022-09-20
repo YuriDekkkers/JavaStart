@@ -130,6 +130,7 @@ void draw(){
   
   //on start to spawn all stuff
   ballSpeed = 6 + Difficulty;
+  difCount++;
   
   if(gamestart){
     background(0,0,0);
@@ -139,8 +140,8 @@ void draw(){
     countdown ++;
     fill(255,255,255);
     textSize(50);
-    text(score1 +" : "+ score2,460,30);
-    text(countdown +" "+ Difficulty,460,460);
+    text(score1 +"     "+ score2,450,30);
+    text(difCount +" "+ Difficulty,460,460);
     fill(0,0,0);
     
     //paddle 1
@@ -197,9 +198,9 @@ void draw(){
       if(ballY <= 25){y = true;}
     }
     
-  if(countdown >= 1800){
+  if(difCount >= 1800){
     Difficulty ++;
-    
+    difCount = 0;
   }
 
   
@@ -218,14 +219,14 @@ void draw(){
   //point score counter
   if(ballX < -25){
     score2++;
-    countdown = 180;
+    countdown = 0;
     ballX = 500;
     ballY = 250;
   }
   
   if(ballX > 1025){
     score1++;
-    countdown = 180;
+    countdown = 0;
     ballX = 500;
     ballY = 250;
   }
