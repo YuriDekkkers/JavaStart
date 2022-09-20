@@ -19,7 +19,7 @@ menu screen 1p 2p
   -activate automatic paddle movement
 
 highscore tracker
-this will be pretty much useless since the game doesnt save verytime you restart the program
+this will be pretty much useless since the game doesnt save everytime you restart the program
 
 make it look good
 -not just squares and circles
@@ -120,23 +120,22 @@ void setup(){
 
 void draw(){
   //hitboxes paddles
-  if(paddle1Y < 0){
-    paddle1Y = 0;
-  }
-  if(paddle1Y > 349){
-    paddle1Y = 349;
-  }
-  if(paddle2Y < 0){
-    paddle2Y = 0;
-  }
-  if(paddle2Y > 349){
-    paddle2Y = 349;
-  }
+  if(paddle1Y < 0){paddle1Y = 0;}
+  if(paddle1Y > 349){paddle1Y = 349;}
+  if(paddle2Y < 0){paddle2Y = 0;}
+  if(paddle2Y > 349){paddle2Y = 349;}
   
   //on start to spawn all stuff
   if(gamestart){
     background(0,0,0);
+    for(int i = 0; i < 69; i++){
+      rect(495,0 + i*50,10,10);
+    }
     countdown --;
+    fill(255,255,255);
+    textSize(50);
+    text(score1 +" : "+ score2,500,20);
+    fill(0,0,0);
     
     //paddle 1
     rect(30,paddle1Y,30,150,10);
@@ -149,29 +148,19 @@ void draw(){
   }
   
   //movement paddle 1
-  if(stupidw == true){
-    paddle1Y -= 10;
-  }
-  
-  if(stupids == true){
-    paddle1Y += 10;
-  }
+  if(stupidw == true){paddle1Y -= 10;}
+  if(stupids == true){paddle1Y += 10;}
   
   //mocement paddle 2
-  if(stupidw2 == true){
-    paddle2Y -= 10;
-  }
-  
-  if(stupids2 == true){
-    paddle2Y += 10;
-  }
+  if(stupidw2 == true){paddle2Y -= 10;}
+  if(stupids2 == true){paddle2Y += 10;}
   
   //movement ball
   if(countdown <= 0){
-    if(ballX < 30 || ballX > 970){
-      hitable = false;
+    if(ballX < 30 || ballX > 970){hitable = false;
+    }else{
+      hitable = true;
     }
-    
     
     //x movement ball
       if(ballX > 500 && hitable){
@@ -186,35 +175,45 @@ void draw(){
         }
       }
       
-      
       if(x == true){
         ballX+= ballSpeed;
       }else{
         ballX-=ballSpeed;
       }
       //y movement ball
-      
       if(ballY < 475 && y == true){
         ballY+=ballSpeed;
       }else{
         ballY-=ballSpeed;
       }
-      if(ballY >= 475){
-        y = false;
-      }
-      if(ballY <= 25){
-        y = true;
-      }
+      
+      if(ballY >= 475){y = false;}
+      if(ballY <= 25){y = true;}
     }
   
   
   //auto paddle2 movement
   if(single){
     if((paddle2Y + 75) < ballY){
-      paddle2Y+=4;
+      paddle2Y+=5;
     }else if((paddle2Y + 75) > ballY){
-      paddle2Y-=4;
+      paddle2Y-=5;
     }
+  }
+  
+  //point score counter
+  if(ballX < -25){
+    score2++;
+    countdown = 180;
+    ballX = 500;
+    ballY = 250;
+  }
+  
+  if(ballX > 1025){
+    score1++;
+    countdown = 180;
+    ballX = 500;
+    ballY = 250;
   }
 }
 
@@ -236,26 +235,12 @@ void MultiPlayer(){
 
 void keyPressed(){
   //paddle 1
-  if(key == 'w'){
-    stupidw = true;
-
-  }
-  
-  if(key == 's'){
-      stupids = true;
-  }
-  
+  if(key == 'w'){stupidw = true;}
+  if(key == 's'){stupids = true;}
   //paddle 2
-  if(keyCode == 38 && !single){
-    stupidw2 = true;
-
-  }
-  
-  if(keyCode == 40 && !single){
-      stupids2 = true;
-  }
+  if(keyCode == 38 && !single){stupidw2 = true;}
+  if(keyCode == 40 && !single){stupids2 = true;}
 }
-
 
 void keyReleased(){
   stupidw = false;
