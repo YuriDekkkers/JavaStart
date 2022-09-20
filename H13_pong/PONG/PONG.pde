@@ -140,10 +140,10 @@ void draw(){
     countdown --;
     
     //paddle 1
-    rect(30,paddle1Y,50,150,10);
+    rect(30,paddle1Y,30,150,10);
     
     //paddle 2
-    rect(920,paddle2Y,50,150,10);
+    rect(920,paddle2Y,30,150,10);
     
     //B A L L
     ellipse(ballX,ballY,50,50);
@@ -170,11 +170,7 @@ void draw(){
   //movement ball
   if(countdown <= 0){
     //x movement
-      if(ballX < 895 && x == true){
-        ballX+= ballSpeed;
-      }else{
-        ballX-=ballSpeed;
-      }
+
       
       if(ballX > 500){
         if(ballX >= 895 && (ballY >= paddle2Y && ballY <= (paddle2Y + 150))){
@@ -188,6 +184,12 @@ void draw(){
         }
       }
       
+      
+      if(x == true){
+        ballX+= ballSpeed;
+      }else{
+        ballX-=ballSpeed;
+      }
       //y movement
       
       if(ballY < 475 && y == true){
