@@ -37,7 +37,7 @@ ControlP5 cp;
 Button P1;
 Button P2;
 
-int ballX = 500;
+float ballX = 500;
 int ballY = 250;
 boolean x;
 boolean y;
@@ -54,8 +54,6 @@ int score1;
 int score2;
 
 int countdown = 180;
-
-int[] scoreArray;
 
 boolean stupidw = false;
 boolean stupids = false;
@@ -175,15 +173,15 @@ void draw(){
     }
     
     
-    //x movement
+    //x movement ball
       if(ballX > 500 && hitable){
-        if(ballX >= 915 && (ballY >= (paddle2Y-25) && ballY <= (paddle2Y + 175))){
+        if(ballX >= 915 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165))){
           x = false;
         }
       }
       
       if(ballX < 500 && hitable){
-        if(ballX <= 85 && (ballY >= (paddle1Y-25) && ballY <= (paddle1Y + 175))){
+        if(ballX <= 85 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165))){
           x = true;
         }
       }
@@ -194,7 +192,7 @@ void draw(){
       }else{
         ballX-=ballSpeed;
       }
-      //y movement
+      //y movement ball
       
       if(ballY < 475 && y == true){
         ballY+=ballSpeed;
@@ -209,10 +207,27 @@ void draw(){
       }
     }
   
+  
+  //auto paddle2 movement
+  if(single){
+    if((paddle2Y + 75) < ballY){
+      paddle2Y+=4;
+    }else if((paddle2Y + 75) > ballY){
+      paddle2Y-=4;
+    }
+  }
 }
 
 
 void singlePlayer(){
+  gamestart = true;
+  single = true;
+  P1.hide();
+  P2.hide();
+}
+
+void MultiPlayer(){
+  single = false;
   gamestart = true;
   P1.hide();
   P2.hide();
@@ -231,12 +246,12 @@ void keyPressed(){
   }
   
   //paddle 2
-  if(keyCode == 38){
+  if(keyCode == 38 && !single){
     stupidw2 = true;
 
   }
   
-  if(keyCode == 40){
+  if(keyCode == 40 && !single){
       stupids2 = true;
   }
 }
