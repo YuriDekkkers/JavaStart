@@ -5,8 +5,10 @@ ballX
 ballY
 
 Paddle1Y
+-w,s
 
 Paddle2Y
+-up,down arrows
 
 other stuff to do.
 point score system
@@ -35,18 +37,29 @@ ControlP5 cp;
 Button P1;
 Button P2;
 
-int ballX;
-int ballY;
+int ballX = 500;
+int ballY = 250;
+boolean x;
+boolean y;
+int ballSpeed = 7;
 
-int paddle1Y;
-int paddle2Y;
+int paddle1Y = 0;
+int paddle2Y = 0;
 
 boolean single = false;
+boolean gamestart = false;
 
 int score1;
 int score2;
 
+int countdown = 180;
+
 int[] scoreArray;
+
+boolean stupidw = false;
+boolean stupids = false;
+boolean stupidw2 = false;
+boolean stupids2 = false;
 
 void setup(){
   size(1000,500);
@@ -97,7 +110,7 @@ void setup(){
          .setColorBackground(color(0,0,0));
          
   rect(525,300,200,75);
-  P2 = cp.addButton("Two Players")
+  P2 = cp.addButton("MultiPlayer")
          .setSize(200,75)
          .setPosition(525,300)
          .setColorLabel(color(255,255,255))
@@ -107,5 +120,125 @@ void setup(){
 }
 
 void draw(){
+  //hitboxes paddles
+  if(paddle1Y < 0){
+    paddle1Y = 0;
+  }
+  if(paddle1Y > 349){
+    paddle1Y = 349;
+  }
+  if(paddle2Y < 0){
+    paddle2Y = 0;
+  }
+  if(paddle2Y > 349){
+    paddle2Y = 349;
+  }
   
+  //on start to spawn all stuff
+  if(gamestart){
+    background(0,0,0);
+    countdown --;
+    
+    //paddle 1
+    rect(30,paddle1Y,50,150,10);
+    
+    //paddle 2
+    rect(920,paddle2Y,50,150,10);
+    
+    //B A L L
+    ellipse(ballX,ballY,50,50);
+  }
+  
+  //movement paddle 1
+  if(stupidw == true){
+    paddle1Y -= 10;
+  }
+  
+  if(stupids == true){
+    paddle1Y += 10;
+  }
+  
+  //mocement paddle 2
+  if(stupidw2 == true){
+    paddle2Y -= 10;
+  }
+  
+  if(stupids2 == true){
+    paddle2Y += 10;
+  }
+  
+  //movement ball
+  if(countdown <= 0){
+    //x movement
+      if(ballX < 895 && x == true){
+        ballX+= ballSpeed;
+      }else{
+        ballX-=ballSpeed;
+      }
+      
+      if(ballX > 500){
+        if(ballX >= 895 && (ballY >= paddle2Y && ballY <= (paddle2Y + 150))){
+          x = false;
+        }
+      }
+      
+      if(ballX < 500){
+        if(ballX <= 105 && (ballY >= paddle1Y && ballY <= (paddle1Y + 150))){
+          x = true;
+        }
+      }
+      
+      //y movement
+      
+      if(ballY < 475 && y == true){
+        ballY+=ballSpeed;
+      }else{
+        ballY-=ballSpeed;
+      }
+      if(ballY >= 475){
+        y = false;
+      }
+      if(ballY <= 25){
+        y = true;
+      }
+    }
+  
+}
+
+
+void singlePlayer(){
+  gamestart = true;
+  P1.hide();
+  P2.hide();
+}
+
+
+void keyPressed(){
+  //paddle 1
+  if(key == 'w'){
+    stupidw = true;
+
+  }
+  
+  if(key == 's'){
+      stupids = true;
+  }
+  
+  //paddle 2
+  if(keyCode == 38){
+    stupidw2 = true;
+
+  }
+  
+  if(keyCode == 40){
+      stupids2 = true;
+  }
+}
+
+
+void keyReleased(){
+  stupidw = false;
+  stupids = false;
+  stupidw2 = false;
+  stupids2 = false;
 }
