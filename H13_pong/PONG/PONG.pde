@@ -36,12 +36,15 @@ ControlP5 cp;
 
 Button P1;
 Button P2;
+int countdown = 0;
+int difCount = 0;
+int Difficulty = 1;
 
-float ballX = 500;
+int ballX = 500;
 int ballY = 250;
 boolean x;
 boolean y;
-int ballSpeed = 7;
+int ballSpeed;
 boolean hitable = true;
 
 int paddle1Y = 0;
@@ -53,12 +56,12 @@ boolean gamestart = false;
 int score1;
 int score2;
 
-int countdown = 180;
-
 boolean stupidw = false;
 boolean stupids = false;
 boolean stupidw2 = false;
 boolean stupids2 = false;
+
+int ApadS = 6;
 
 void setup(){
   size(1000,500);
@@ -126,15 +129,18 @@ void draw(){
   if(paddle2Y > 349){paddle2Y = 349;}
   
   //on start to spawn all stuff
+  ballSpeed = 6 + Difficulty;
+  
   if(gamestart){
     background(0,0,0);
     for(int i = 0; i < 69; i++){
-      rect(495,0 + i*50,10,10);
+      rect(495,0 + i*50,10,40);
     }
-    countdown --;
+    countdown ++;
     fill(255,255,255);
     textSize(50);
-    text(score1 +" : "+ score2,500,20);
+    text(score1 +" : "+ score2,460,30);
+    text(countdown +" "+ Difficulty,460,460);
     fill(0,0,0);
     
     //paddle 1
@@ -156,7 +162,7 @@ void draw(){
   if(stupids2 == true){paddle2Y += 10;}
   
   //movement ball
-  if(countdown <= 0){
+  if(countdown >= 180){
     if(ballX < 30 || ballX > 970){hitable = false;
     }else{
       hitable = true;
@@ -190,17 +196,25 @@ void draw(){
       if(ballY >= 475){y = false;}
       if(ballY <= 25){y = true;}
     }
+    
+  if(countdown >= 1800){
+    Difficulty ++;
+    
+  }
+
   
   
   //auto paddle2 movement
   if(single){
     if((paddle2Y + 75) < ballY){
-      paddle2Y+=5;
+      paddle2Y+=ApadS;
     }else if((paddle2Y + 75) > ballY){
-      paddle2Y-=5;
+      paddle2Y-=ApadS;
     }
   }
   
+  
+
   //point score counter
   if(ballX < -25){
     score2++;
