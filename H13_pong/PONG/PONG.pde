@@ -32,11 +32,17 @@ sounds and maybe music
 -lose jingle (single plyer only)
 */
 import controlP5.*;
+import processing.sound.*;
 
 ControlP5 cp;
+SoundFile Boing;
+SoundFile Score;
 
 Button P1;
 Button P2;
+
+
+
 int countdown = 0;
 int difCount = 0;
 int Difficulty = 1;
@@ -70,6 +76,10 @@ void setup(){
   background(0,0,0);
   
   cp = new ControlP5(this);
+  Boing = new SoundFile(this, "ballBounce.wav");
+    Boing.amp(0.8);
+  Score = new SoundFile(this, "score.wav");
+    Score.amp(0.8);
   
   //logo
   stroke(255,255,255);
@@ -231,6 +241,7 @@ void draw(){
     countdown = 0;
     ballX = 500;
     ballY = 250;
+    Score.play();
   }
   
   if(ballX > 1025){
@@ -238,6 +249,22 @@ void draw(){
     countdown = 0;
     ballX = 500;
     ballY = 250;
+    Score.play();
+  }
+  
+  
+  //sounds
+  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165))){
+    Boing.play();
+  }
+  if(ballX >= 915 && ballX <= 905 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165))){
+    Boing.play();
+  }
+  if(ballY <= 25){
+    Boing.play();
+  }
+  if(ballY >= 475){
+    Boing.play();
   }
 }
 
