@@ -1,34 +1,3 @@
-/* to do list
-
-some variables.
-ballX
-ballY
-
-Paddle1Y
--w,s
-
-Paddle2Y
--up,down arrows
-
-other stuff to do.
-point score system
-
-menu screen 1p 2p
--2p standard = on
--disable second player when clicked on the 1p button
-  -activate automatic paddle movement
-
-highscore tracker
-this will be pretty much useless since the game doesnt save everytime you restart the program
-joe bumgus
-
-make it look good
--not just squares and circles
-
-sounds and maybe music
--ball bounce
--point ding
-*/
 import controlP5.*;
 import processing.sound.*;
 
@@ -39,8 +8,8 @@ SoundFile BigBoing;
 
 Button P1;
 Button P2;
-
-
+Button info;
+Button back;
 
 int countdown = 0;
 int difCount = 0;
@@ -59,6 +28,7 @@ int paddle2Y = 0;
 
 boolean single = false;
 boolean gamestart = false;
+boolean infoscreen = false;
 
 int score1;
 int score2;
@@ -84,7 +54,45 @@ void setup(){
     Score.amp(0.8);
   BigBoing = new SoundFile(this, "hardbounce.wav");
     Boing.amp(0.8);
+
+  //buttons
+  P1 = cp.addButton("singlePlayer")
+         .setSize(200,75)
+         .setPosition(275,300)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
+        
+  P2 = cp.addButton("MultiPlayer")
+         .setSize(200,75)
+         .setPosition(525,300)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
+         
   
+  info = cp.addButton("Information")
+         .setSize(50,20)
+         .setPosition(40,40)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
+         
+  back = cp.addButton("back")
+         .hide()
+         .setSize(50,20)
+         .setPosition(40,40)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
+}
+
+void draw(){
+  if(!gamestart && !infoscreen){
   //logo
   stroke(255,255,255);
   strokeWeight(3);
@@ -116,28 +124,12 @@ void setup(){
   rect(676,159,32,64);
   rect(676,127,64,32);
   
-  //buttons
   stroke(255,255,255);
-  rect(275,300,200,75);
-  P1 = cp.addButton("singlePlayer")
-         .setSize(200,75)
-         .setPosition(275,300)
-         .setColorLabel(color(255,255,255))
-         .setColorActive(color(255,255,255))
-         .setColorForeground(color(0,0,0))
-         .setColorBackground(color(0,0,0));
-         
-  rect(525,300,200,75);
-  P2 = cp.addButton("MultiPlayer")
-         .setSize(200,75)
-         .setPosition(525,300)
-         .setColorLabel(color(255,255,255))
-         .setColorActive(color(255,255,255))
-         .setColorForeground(color(0,0,0))
-         .setColorBackground(color(0,0,0));
-}
-
-void draw(){
+  rect(270,295,210,85);
+  rect(520,295,210,85);
+  rect(35,35,60,30);
+  }
+  
   //hitboxes paddles
   if(paddle1Y < 0){paddle1Y = 0;}
   if(paddle1Y > 349){paddle1Y = 349;}
@@ -230,8 +222,8 @@ void draw(){
   
   //auto paddle difficulty increase
   if(single){
-    if(Difficulty == 3){ApadS = 6;CompStrat = 20;}
-    if(Difficulty == 6){ApadS = 8;CompStrat = 30;}
+    if(Difficulty == 3){ApadS = 7;CompStrat = 15;}
+    if(Difficulty == 6){ApadS = 9;CompStrat = 25;}
     if(Difficulty == 9){ApadS = 11;CompStrat = 35;}
   }
   
@@ -345,6 +337,7 @@ void singlePlayer(){
   single = true;
   P1.hide();
   P2.hide();
+  info.hide();
 }
 
 void MultiPlayer(){
@@ -352,6 +345,33 @@ void MultiPlayer(){
   gamestart = true;
   P1.hide();
   P2.hide();
+  info.hide();
+}
+
+void Information(){
+  infoscreen = true;
+  background(0,0,0);
+  rect(10,10,980,480,40);
+  P1.hide();
+  P2.hide();
+  rect(35,35,60,30);
+  back.show();
+  info.hide();
+  textSize(15);
+  fill(255,255,255);
+  text("- Difficulty increases every 30 seconds, maxed out at 20.",225,150);
+  text("- Every level of difficulty increases the ball speed by 1",225,200);
+  text("- the Computer (in singleplayer) also gets better as the difficulty increases",225,250);
+  text("- When the ball flashes it means that it is at maximum speed.",225,300);
+  text("- The game goes on forever at the moment, i have not yet implemented an ending screen.",225,350);
+}
+
+void back(){
+  back.hide();
+  P1.show();
+  P2.show();
+  info.show();
+  infoscreen = false;
 }
 
 void keyPressed(){
