@@ -225,6 +225,7 @@ void draw(){
     if(Difficulty == 3){ApadS = 7;CompStrat = 15;}
     if(Difficulty == 6){ApadS = 9;CompStrat = 25;}
     if(Difficulty == 9){ApadS = 11;CompStrat = 35;}
+    if(Difficulty == 12){ApadS = 14;CompStrat = 0;}
   }
   
   //point score counter
