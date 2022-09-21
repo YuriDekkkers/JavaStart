@@ -20,6 +20,7 @@ menu screen 1p 2p
 
 highscore tracker
 this will be pretty much useless since the game doesnt save everytime you restart the program
+joe bumgus
 
 make it look good
 -not just squares and circles
@@ -61,7 +62,8 @@ boolean stupids = false;
 boolean stupidw2 = false;
 boolean stupids2 = false;
 
-int ApadS = 6;
+int ApadS = 5;
+int CompStrat;
 
 void setup(){
   size(1000,500);
@@ -125,23 +127,25 @@ void draw(){
   //hitboxes paddles
   if(paddle1Y < 0){paddle1Y = 0;}
   if(paddle1Y > 349){paddle1Y = 349;}
-  if(paddle2Y < 0){paddle2Y = 0;}
-  if(paddle2Y > 349){paddle2Y = 349;}
+  if(paddle2Y < 0 + CompStrat){paddle2Y = 0 + CompStrat;}
+  if(paddle2Y > 349 - CompStrat){paddle2Y = 349 - CompStrat;}
   
   //on start to spawn all stuff
   ballSpeed = 6 + Difficulty;
-  difCount++;
   
   if(gamestart){
     background(0,0,0);
+    difCount++;
     for(int i = 0; i < 69; i++){
-      rect(495,0 + i*50,10,40);
+      rect(495,0 + i*51,10,40);
     }
     countdown ++;
     fill(255,255,255);
+    textSize(15);
+    text("Difficulty : "+ Difficulty,10,490);
     textSize(50);
-    text(score1 +"     "+ score2,450,30);
-    text(difCount +" "+ Difficulty,460,460);
+    text(score1,440,30);
+    text(score2,530,30);
     fill(0,0,0);
     
     //paddle 1
@@ -214,6 +218,11 @@ void draw(){
     }
   }
   
+  //difficulty increase
+  if(Difficulty == 3){ApadS = 7;CompStrat = 20;}
+  if(Difficulty == 6){ApadS = 9;CompStrat = 30;}
+  if(Difficulty == 9){ApadS = 11;CompStrat = 40;}
+  
   
 
   //point score counter
@@ -258,8 +267,10 @@ void keyPressed(){
 }
 
 void keyReleased(){
-  stupidw = false;
-  stupids = false;
-  stupidw2 = false;
-  stupids2 = false;
+  //paddle 1
+  if(key == 'w'){stupidw = false;}
+  if(key == 's'){stupids = false;}
+  //paddle 2
+  if(keyCode == 38){stupidw2 = false;}
+  if(keyCode == 40){stupids2 = false;}
 }
