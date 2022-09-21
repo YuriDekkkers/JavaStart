@@ -216,35 +216,25 @@ void draw(){
       }else{
         ballY-=ballSpeed;
       }
-      
       if(ballY >= 475){y = false;}
       if(ballY <= 25){y = true;}
     }
     
-  if(difCount >= 1800){
-    Difficulty ++;
-    difCount = 0;
-  }
+  if(difCount >= 1800){Difficulty ++;difCount = 0;}
 
-  
-  
   //auto paddle2 movement
   if(single){
-    if((paddle2Y + 75) < ballY){
-      paddle2Y+=ApadS;
-    }else if((paddle2Y + 75) > ballY){
-      paddle2Y-=ApadS;
-    }
+    if((paddle2Y + 75) < ballY){paddle2Y+=ApadS;}else 
+    if((paddle2Y + 75) > ballY){paddle2Y-=ApadS;}
   }
   
   //auto paddle difficulty increase
   if(single){
     if(Difficulty == 3){ApadS = 6;CompStrat = 20;}
     if(Difficulty == 6){ApadS = 8;CompStrat = 30;}
-    if(Difficulty == 9){ApadS = 10;CompStrat = 40;}
+    if(Difficulty == 9){ApadS = 11;CompStrat = 35;}
   }
   
-
   //point score counter
   if(ballX < -30){
     score2++;
@@ -265,47 +255,34 @@ void draw(){
     Score.play();
     randSpeed = 0;
   }
-  
-  
+
   //sounds and randomness
   if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 5){
-    if(Boing.isPlaying()){
-      Boing.stop();
-    }
+    if(Boing.isPlaying()){Boing.stop();}
     Boing.play();
     randSpeed = floor(random(0,7));
   }
   if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 5){
-    if(Boing.isPlaying()){
-      Boing.stop();
-    }
+    if(Boing.isPlaying()){Boing.stop();}
     Boing.play();
     randSpeed = floor(random(0,7));
   }
   if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 5){
-    if(BigBoing.isPlaying()){
-      BigBoing.stop();
-    }
+    if(BigBoing.isPlaying()){BigBoing.stop();}
     BigBoing.play();
     randSpeed = floor(random(0,7));
   }
   if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 5){
-    if(BigBoing.isPlaying()){
-      BigBoing.stop();
-    }
+    if(BigBoing.isPlaying()){BigBoing.stop();}
     BigBoing.play();
     randSpeed = floor(random(0,7));
   }
   if((ballY <= 25 || ballY >= 475) && randSpeed < 5){
-    if(Boing.isPlaying()){
-      Boing.stop();
-    }
+    if(Boing.isPlaying()){Boing.stop();}
     Boing.play();
   }
   if((ballY <= 25 || ballY >= 475) && randSpeed >= 5){
-    if(BigBoing.isPlaying()){
-      BigBoing.stop();
-    }
+    if(BigBoing.isPlaying()){BigBoing.stop();}
     BigBoing.play();
   }
   if(ballX < 60 || ballX> 940){Boing.stop();BigBoing.stop();}
@@ -326,45 +303,42 @@ void draw(){
   }
   
   //paddle score
-  if(ballX >= 1015){
+  if(ballX >= 1010){
     funnyTimer1 = 90;
   }
   if(funnyTimer1 >= 0){
-      switch(countdown % 4){
-        case 0:
-        case 1:
-          stroke(255,0,255);
-          rect(30,paddle1Y,30,150,10);
-          break;
-        case 2:
-        case 3:
-          stroke(0,255,255);
-          rect(30,paddle1Y,30,150,10);
-          break;
+    switch(countdown % 4){
+      case 0:
+      case 1:
+        stroke(255,0,255);
+        rect(30,paddle1Y,30,150,10);
+        break;
+      case 2:
+      case 3:
+        stroke(0,255,255);
+        rect(30,paddle1Y,30,150,10);
+        break;
       }
     }
   
-  if(ballX <= -15){
+  if(ballX <= -10){
     funnyTimer2 = 90;
   }
   if(funnyTimer2 >= 0){
-      switch(countdown % 4){
-        case 0:
-        case 1:
-          stroke(255,0,255);
-          rect(940,paddle2Y,30,150,10);
-          break;
-        case 2:
-        case 3:
-          stroke(0,255,255);
-          rect(940,paddle2Y,30,150,10);
-          break;
-      }
+    switch(countdown % 4){
+      case 0:
+      case 1:
+        stroke(255,0,255);
+        rect(940,paddle2Y,30,150,10);
+        break;
+      case 2:
+      case 3:
+        stroke(0,255,255);
+        rect(940,paddle2Y,30,150,10);
+        break;
     }
-  
-  println(funnyTimer1);
+  }
 }
-
 
 void singlePlayer(){
   gamestart = true;
@@ -379,7 +353,6 @@ void MultiPlayer(){
   P1.hide();
   P2.hide();
 }
-
 
 void keyPressed(){
   //paddle 1
