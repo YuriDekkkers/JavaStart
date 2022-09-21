@@ -28,8 +28,6 @@ make it look good
 sounds and maybe music
 -ball bounce
 -point ding
--win jingle
--lose jingle (single plyer only)
 */
 import controlP5.*;
 import processing.sound.*;
@@ -267,19 +265,19 @@ void draw(){
   
   
   //sounds and randomness
-  if(ballX <= 85 && ballX >= 80 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 5){
+  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 5){
     Boing.play();
     randSpeed = floor(random(0,7));
   }
-  if(ballX >= 915 && ballX <= 920 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 5){
+  if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 5){
     Boing.play();
     randSpeed = floor(random(0,7));
   }
-  if(ballX <= 85 && ballX >= 80 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 5){
+  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 5){
     BigBoing.play();
     randSpeed = floor(random(0,7));
   }
-  if(ballX >= 915 && ballX <= 920 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 5){
+  if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 5){
     BigBoing.play();
     randSpeed = floor(random(0,7));
   }
