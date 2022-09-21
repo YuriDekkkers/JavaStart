@@ -37,6 +37,7 @@ import processing.sound.*;
 ControlP5 cp;
 SoundFile Boing;
 SoundFile Score;
+SoundFile BigBoing;
 
 Button P1;
 Button P2;
@@ -52,6 +53,7 @@ int ballY = 250;
 boolean x;
 boolean y;
 int ballSpeed;
+int randSpeed;
 boolean hitable = true;
 
 int paddle1Y = 0;
@@ -67,6 +69,8 @@ boolean stupidw = false;
 boolean stupids = false;
 boolean stupidw2 = false;
 boolean stupids2 = false;
+int funnyTimer1;
+int funnyTimer2;
 
 int ApadS = 5;
 int CompStrat;
@@ -80,6 +84,8 @@ void setup(){
     Boing.amp(0.8);
   Score = new SoundFile(this, "score.wav");
     Score.amp(0.8);
+  BigBoing = new SoundFile(this, "hardbounce.wav");
+    Boing.amp(0.8);
   
   //logo
   stroke(255,255,255);
@@ -142,11 +148,15 @@ void draw(){
   
   //on start to spawn all stuff
   ballSpeed = 6 + Difficulty;
+  funnyTimer1--;
+  funnyTimer2--;
   
   if(gamestart){
+    stroke(255,255,255);
     background(0,0,0);
     difCount++;
     for(int i = 0; i < 69; i++){
+      fill(0,0,0);
       rect(495,0 + i*51,10,40);
     }
     countdown ++;
@@ -197,9 +207,9 @@ void draw(){
       }
       
       if(x == true){
-        ballX+= ballSpeed;
+        ballX+= ballSpeed + randSpeed;
       }else{
-        ballX-=ballSpeed;
+        ballX-=ballSpeed + randSpeed;
       }
       //y movement ball
       if(ballY < 475 && y == true){
@@ -228,11 +238,12 @@ void draw(){
     }
   }
   
-  //difficulty increase
-  if(Difficulty == 3){ApadS = 7;CompStrat = 20;}
-  if(Difficulty == 6){ApadS = 9;CompStrat = 30;}
-  if(Difficulty == 9){ApadS = 11;CompStrat = 40;}
-  
+  //auto paddle difficulty increase
+  if(single){
+    if(Difficulty == 3){ApadS = 6;CompStrat = 20;}
+    if(Difficulty == 6){ApadS = 8;CompStrat = 30;}
+    if(Difficulty == 9){ApadS = 10;CompStrat = 40;}
+  }
   
 
   //point score counter
@@ -242,6 +253,7 @@ void draw(){
     ballX = 500;
     ballY = 250;
     Score.play();
+    randSpeed = 0;
   }
   
   if(ballX > 1025){
@@ -250,22 +262,87 @@ void draw(){
     ballX = 500;
     ballY = 250;
     Score.play();
+    randSpeed = 0;
   }
   
   
-  //sounds
-  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165))){
+  //sounds and randomness
+  if(ballX <= 85 && ballX >= 80 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 5){
+    Boing.play();
+    randSpeed = floor(random(0,7));
+  }
+  if(ballX >= 915 && ballX <= 920 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 5){
+    Boing.play();
+    randSpeed = floor(random(0,7));
+  }
+  if(ballX <= 85 && ballX >= 80 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 5){
+    BigBoing.play();
+    randSpeed = floor(random(0,7));
+  }
+  if(ballX >= 915 && ballX <= 920 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 5){
+    BigBoing.play();
+    randSpeed = floor(random(0,7));
+  }
+  if((ballY <= 25 || ballY >= 475) && randSpeed < 5){
     Boing.play();
   }
-  if(ballX >= 915 && ballX <= 905 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165))){
-    Boing.play();
+  if((ballY <= 25 || ballY >= 475) && randSpeed >= 5){
+    BigBoing.play();
   }
-  if(ballY <= 25){
-    Boing.play();
+  
+  //some cool effects
+  //ball power
+  if(randSpeed >= 5){
+    switch(countdown % 2){
+      case 1:
+        stroke(255,0,255);
+        ellipse(ballX,ballY,50,50);
+        break;
+      case 0:
+        stroke(0,255,255);
+        ellipse(ballX,ballY,50,50);
+        break;
+    }
   }
-  if(ballY >= 475){
-    Boing.play();
+  
+  //paddle score
+  if(ballX >= 1015){
+    funnyTimer1 = 90;
   }
+  if(funnyTimer1 >= 0){
+      switch(countdown % 4){
+        case 0:
+        case 1:
+          stroke(255,0,255);
+          rect(30,paddle1Y,30,150,10);
+          break;
+        case 2:
+        case 3:
+          stroke(0,255,255);
+          rect(30,paddle1Y,30,150,10);
+          break;
+      }
+    }
+  
+  if(ballX <= -15){
+    funnyTimer2 = 90;
+  }
+  if(funnyTimer2 >= 0){
+      switch(countdown % 4){
+        case 0:
+        case 1:
+          stroke(255,0,255);
+          rect(940,paddle2Y,30,150,10);
+          break;
+        case 2:
+        case 3:
+          stroke(0,255,255);
+          rect(940,paddle2Y,30,150,10);
+          break;
+      }
+    }
+  
+  println(funnyTimer1);
 }
 
 
