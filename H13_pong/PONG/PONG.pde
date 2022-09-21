@@ -157,6 +157,7 @@ void draw(){
       fill(0,0,0);
       rect(495,0 + i*51,10,40);
     }
+    if(Difficulty > 20){Difficulty = 20;}
     countdown ++;
     fill(255,255,255);
     textSize(15);
@@ -185,7 +186,7 @@ void draw(){
   if(stupids2 == true){paddle2Y += 10;}
   
   //movement ball
-  if(countdown >= 180){
+  if(countdown >= 120){
     if(ballX < 30 || ballX > 970){hitable = false;
     }else{
       hitable = true;
@@ -245,20 +246,22 @@ void draw(){
   
 
   //point score counter
-  if(ballX < -25){
+  if(ballX < -30){
     score2++;
     countdown = 0;
     ballX = 500;
     ballY = 250;
+    if(Boing.isPlaying()||BigBoing.isPlaying()){Boing.stop();BigBoing.stop();}
     Score.play();
     randSpeed = 0;
   }
   
-  if(ballX > 1025){
+  if(ballX > 1030){
     score1++;
     countdown = 0;
     ballX = 500;
     ballY = 250;
+    if(Boing.isPlaying()||BigBoing.isPlaying()){Boing.stop();BigBoing.stop();}
     Score.play();
     randSpeed = 0;
   }
@@ -266,27 +269,46 @@ void draw(){
   
   //sounds and randomness
   if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 5){
+    if(Boing.isPlaying()){
+      Boing.stop();
+    }
     Boing.play();
     randSpeed = floor(random(0,7));
   }
   if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 5){
+    if(Boing.isPlaying()){
+      Boing.stop();
+    }
     Boing.play();
     randSpeed = floor(random(0,7));
   }
   if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 5){
+    if(BigBoing.isPlaying()){
+      BigBoing.stop();
+    }
     BigBoing.play();
     randSpeed = floor(random(0,7));
   }
   if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 5){
+    if(BigBoing.isPlaying()){
+      BigBoing.stop();
+    }
     BigBoing.play();
     randSpeed = floor(random(0,7));
   }
   if((ballY <= 25 || ballY >= 475) && randSpeed < 5){
+    if(Boing.isPlaying()){
+      Boing.stop();
+    }
     Boing.play();
   }
   if((ballY <= 25 || ballY >= 475) && randSpeed >= 5){
+    if(BigBoing.isPlaying()){
+      BigBoing.stop();
+    }
     BigBoing.play();
   }
+  if(ballX < 60 || ballX> 940){Boing.stop();BigBoing.stop();}
   
   //some cool effects
   //ball power
