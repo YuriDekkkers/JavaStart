@@ -6,6 +6,8 @@ SoundFile Boing;
 SoundFile Score;
 SoundFile BigBoing;
 SoundFile win;
+SoundFile music;
+SoundFile GameMusic;
 
 Button P1;
 Button P2;
@@ -24,6 +26,8 @@ boolean y;
 int ballSpeed;
 int randSpeed;
 boolean hitable = true;
+int debuff1 = 0;
+int debuff2 = 0;
 
 int paddle1Y = 0;
 int paddle2Y = 0;
@@ -48,7 +52,7 @@ int ohheyanothertimer;
 
 int ApadS = 5;
 int CompStrat;
-
+//===========================================================================================================================================//
 void setup(){
   size(1000,500);
   background(0,0,0);
@@ -59,9 +63,12 @@ void setup(){
   Score = new SoundFile(this, "score.wav");
     Score.amp(0.8);
   BigBoing = new SoundFile(this, "hardbounce.wav");
-    Boing.amp(0.8);
+    BigBoing.amp(0.8);
   win = new SoundFile(this, "WinJingle.wav");
-    Boing.amp(0.8);
+    win.amp(0.8);
+  music = new SoundFile(this, "pong song question mark.wav");
+    music.amp(0.8);
+    music.loop();
 
   //buttons
   P1 = cp.addButton("singlePlayer")
@@ -106,7 +113,7 @@ void setup(){
          .setColorForeground(color(0,0,0))
          .setColorBackground(color(0,0,0));
 }
-
+//===========================================================================================================================================//
 void draw(){
   if(!gamestart && !infoscreen){
   //logo
@@ -147,7 +154,7 @@ void draw(){
   rect(520,395,210,50);
   rect(35,35,60,30);
   }
-  
+//===========================================================================================================================================//
   //hitboxes paddles
   if(paddle1Y < 0){paddle1Y = 0;}
   if(paddle1Y > 349){paddle1Y = 349;}
@@ -160,8 +167,9 @@ void draw(){
   funnyTimer2--;
   dummyTimer--;
   InputDelay--;
-  
+//===========================================================================================================================================//
   if(gamestart){
+    music.stop();
     if(countdown == 0){ballX = 500; ballY = 250;}
     stroke(255,255,255);
     background(0,0,0);
@@ -189,7 +197,7 @@ void draw(){
     //B A L L
     ellipse(ballX,ballY,50,50);
   }
-  
+//===========================================================================================================================================//
   //movement paddle 1
   if(stupidw == true){paddle1Y -= 10;}
   if(stupids == true){paddle1Y += 10;}
@@ -232,7 +240,7 @@ void draw(){
       if(ballY >= 475){y = false;}
       if(ballY <= 25){y = true;}
     }
-    
+//===========================================================================================================================================//
   if(difCount >= 1800){Difficulty ++;difCount = 0;}
 
   //auto paddle2 movement
@@ -248,7 +256,7 @@ void draw(){
     if(Difficulty == 9){ApadS = 11;CompStrat = 35;}
     if(Difficulty == 12){ApadS = 14;CompStrat = 0;}
   }
-  
+//===========================================================================================================================================//
   //point score counter
   if(ballX < -30){
     score2++;
@@ -269,7 +277,7 @@ void draw(){
     Score.play();
     randSpeed = 0;
   }
-  
+//===========================================================================================================================================//
   //endless mode disabled
   if(EndlessOff && gamestart && !single){
     if(score1 >= 15){
@@ -307,8 +315,7 @@ void draw(){
       }
     }
   }
-    
-
+//===========================================================================================================================================//
   //sounds and randomness
   if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 7){
     if(Boing.isPlaying()){Boing.stop();}
@@ -341,7 +348,7 @@ void draw(){
     BigBoing.play();
   }
   if(ballX < 60 || ballX> 940){Boing.stop();BigBoing.stop();}
-  
+//===========================================================================================================================================//
   //some cool effects
   //ball power
   if(randSpeed >= 7){
@@ -356,9 +363,7 @@ void draw(){
         break;
     }
   }
-  
-  println(EndlessOff);
-  
+//===========================================================================================================================================//
   //paddle score
   if(ballX >= 1010){
     funnyTimer1 = 90;
@@ -395,7 +400,7 @@ void draw(){
         break;
     }
   }
-  
+//===========================================================================================================================================//
   if(!gamestart && !infoscreen){
     P1.show();
     P2.show();
@@ -404,9 +409,13 @@ void draw(){
     funnyTimer1 = -10;
     funnyTimer2 = -10;
     countdown = 0;
+    score1 = 0;
+    score2 = 0;
+    Difficulty = 1;
+    if(!music.isPlaying()){music.loop();}
   }
 }
-
+//===========================================================================================================================================//
 void singlePlayer(){
   gamestart = true;
   single = true;
@@ -437,13 +446,14 @@ void Information(){
   info.hide();
   textSize(15);
   fill(255,255,255);
-  text("- Difficulty increases every 30 seconds, maxed out at 20.",225,130);
-  text("- Every level of difficulty increases the ball speed by 1",225,170);
-  text("- the Computer (in singleplayer) also gets better as the difficulty increases",225,210);
-  text("- When the ball flashes it means that it is at maximum speed.",225,250);
-  text("- press R at any time to quit the game and go to the menu screen.",225,290);
-  text("- when endless mode is disabled the game goes on until 1 plyers gets 15 points.",225,330);
-  text("- Endless mode only applies to multiplayer",225,370);
+  text("- W/S for left paddle, UP/DOWN keys for right paddle.",225,110);
+  text("- Difficulty increases every 30 seconds, maxed out at 20.",225,150);
+  text("- Every level of difficulty increases the ball speed by 1",225,190);
+  text("- the Computer (in singleplayer) also gets better as the difficulty increases",225,230);
+  text("- When the ball flashes it means that it is at maximum speed.",225,270);
+  text("- press R at any time to quit the game and go to the menu screen.",225,310);
+  text("- when endless mode is disabled the game goes on until a plyer gets 15 points.",225,350);
+  text("- Endless mode only applies to multiplayer",225,390);
 }
 
 void back(){
