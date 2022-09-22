@@ -437,13 +437,13 @@ void Information(){
   info.hide();
   textSize(15);
   fill(255,255,255);
-  text("- Difficulty increases every 30 seconds, maxed out at 20.",225,150);
-  text("- Every level of difficulty increases the ball speed by 1",225,200);
-  text("- the Computer (in singleplayer) also gets better as the difficulty increases",225,250);
-  text("- When the ball flashes it means that it is at maximum speed.",225,300);
-  text("- The game goes on forever at the moment, i have not yet implemented an ending screen.",225,350);
-  text("- press R at any time to quit the game and go to the menu screen.",225,350);
-  text("- when endless mode is disabled the game goes on until 1 plyers gets 15 points.",225,350);
+  text("- Difficulty increases every 30 seconds, maxed out at 20.",225,130);
+  text("- Every level of difficulty increases the ball speed by 1",225,170);
+  text("- the Computer (in singleplayer) also gets better as the difficulty increases",225,210);
+  text("- When the ball flashes it means that it is at maximum speed.",225,250);
+  text("- press R at any time to quit the game and go to the menu screen.",225,290);
+  text("- when endless mode is disabled the game goes on until 1 plyers gets 15 points.",225,330);
+  text("- Endless mode only applies to multiplayer",225,370);
 }
 
 void back(){
