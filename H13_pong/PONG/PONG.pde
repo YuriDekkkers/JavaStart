@@ -5,11 +5,13 @@ ControlP5 cp;
 SoundFile Boing;
 SoundFile Score;
 SoundFile BigBoing;
+SoundFile win;
 
 Button P1;
 Button P2;
 Button info;
 Button back;
+Button endless;
 
 int countdown = 0;
 int difCount = 0;
@@ -29,6 +31,7 @@ int paddle2Y = 0;
 boolean single = false;
 boolean gamestart = false;
 boolean infoscreen = false;
+boolean EndlessOff = true;
 
 int score1;
 int score2;
@@ -39,6 +42,9 @@ boolean stupidw2 = false;
 boolean stupids2 = false;
 int funnyTimer1;
 int funnyTimer2;
+int dummyTimer;
+int InputDelay;
+int ohheyanothertimer;
 
 int ApadS = 5;
 int CompStrat;
@@ -53,6 +59,8 @@ void setup(){
   Score = new SoundFile(this, "score.wav");
     Score.amp(0.8);
   BigBoing = new SoundFile(this, "hardbounce.wav");
+    Boing.amp(0.8);
+  win = new SoundFile(this, "WinJingle.wav");
     Boing.amp(0.8);
 
   //buttons
@@ -89,11 +97,20 @@ void setup(){
          .setColorActive(color(255,255,255))
          .setColorForeground(color(0,0,0))
          .setColorBackground(color(0,0,0));
+         
+  endless = cp.addButton("EndlessMode")
+         .setSize(200,40)
+         .setPosition(525,400)
+         .setColorLabel(color(255,255,255))
+         .setColorActive(color(255,255,255))
+         .setColorForeground(color(0,0,0))
+         .setColorBackground(color(0,0,0));
 }
 
 void draw(){
   if(!gamestart && !infoscreen){
   //logo
+  background(0,0,0);
   stroke(255,255,255);
   strokeWeight(3);
   fill(0,0,0);
@@ -127,6 +144,7 @@ void draw(){
   stroke(255,255,255);
   rect(270,295,210,85);
   rect(520,295,210,85);
+  rect(520,395,210,50);
   rect(35,35,60,30);
   }
   
@@ -140,8 +158,11 @@ void draw(){
   ballSpeed = 6 + Difficulty;
   funnyTimer1--;
   funnyTimer2--;
+  dummyTimer--;
+  InputDelay--;
   
   if(gamestart){
+    if(countdown == 0){ballX = 500; ballY = 250;}
     stroke(255,255,255);
     background(0,0,0);
     difCount++;
@@ -248,33 +269,74 @@ void draw(){
     Score.play();
     randSpeed = 0;
   }
+  
+  //endless mode disabled
+  if(EndlessOff && gamestart && !single){
+    if(score1 >= 15){
+      if(ohheyanothertimer == 1){win.play();}
+      fill(255,255,255);
+      textSize(20);
+      text("player 1 wins!",350,250);
+      fill(0,0,0);
+      if(countdown > 10){countdown = 0;}
+      ohheyanothertimer++;
+      if(ohheyanothertimer == 240){
+        score1 = 0;
+        score2 = 0;
+        gamestart = false;
+        ohheyanothertimer = 0;
+        Difficulty = 1;
+        win.stop();
+      }
+    }
+    if(score2 >= 15){
+      if(ohheyanothertimer == 1){win.play();}
+      fill(255,255,255);
+      textSize(20);
+      text("player 2 wins!",550,250);
+      fill(0,0,0);
+      if(countdown > 10){countdown = 0;}
+      ohheyanothertimer++;
+      if(ohheyanothertimer == 240){
+        score1 = 0;
+        score2 = 0;
+        gamestart = false;
+        ohheyanothertimer = 0;
+        Difficulty = 1;
+        win.stop();
+      }
+    }
+  }
+    
 
   //sounds and randomness
-  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 5){
+  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed < 7){
     if(Boing.isPlaying()){Boing.stop();}
     Boing.play();
-    randSpeed = floor(random(0,7));
+    randSpeed = floor(random(0,8));
+    dummyTimer = 10;
   }
-  if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 5){
+  if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed < 7){
     if(Boing.isPlaying()){Boing.stop();}
     Boing.play();
-    randSpeed = floor(random(0,7));
+    randSpeed = floor(random(0,8));
+    dummyTimer = 10;
   }
-  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 5){
+  if(ballX <= 85 && ballX >= 75 && (ballY >= (paddle1Y-15) && ballY <= (paddle1Y + 165)) && randSpeed >= 7 && dummyTimer < 0){
     if(BigBoing.isPlaying()){BigBoing.stop();}
     BigBoing.play();
-    randSpeed = floor(random(0,7));
+    randSpeed = floor(random(0,8));
   }
-  if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 5){
+  if(ballX >= 915 && ballX <= 925 && (ballY >= (paddle2Y-15) && ballY <= (paddle2Y + 165) )&& randSpeed >= 7 && dummyTimer < 0){
     if(BigBoing.isPlaying()){BigBoing.stop();}
     BigBoing.play();
-    randSpeed = floor(random(0,7));
+    randSpeed = floor(random(0,8));
   }
-  if((ballY <= 25 || ballY >= 475) && randSpeed < 5){
+  if((ballY <= 25 || ballY >= 475) && randSpeed < 7){
     if(Boing.isPlaying()){Boing.stop();}
     Boing.play();
   }
-  if((ballY <= 25 || ballY >= 475) && randSpeed >= 5){
+  if((ballY <= 25 || ballY >= 475) && randSpeed >= 7){
     if(BigBoing.isPlaying()){BigBoing.stop();}
     BigBoing.play();
   }
@@ -282,7 +344,7 @@ void draw(){
   
   //some cool effects
   //ball power
-  if(randSpeed >= 5){
+  if(randSpeed >= 7){
     switch(countdown % 2){
       case 1:
         stroke(255,0,255);
@@ -294,6 +356,8 @@ void draw(){
         break;
     }
   }
+  
+  println(EndlessOff);
   
   //paddle score
   if(ballX >= 1010){
@@ -331,6 +395,16 @@ void draw(){
         break;
     }
   }
+  
+  if(!gamestart && !infoscreen){
+    P1.show();
+    P2.show();
+    info.show();
+    endless.show();
+    funnyTimer1 = -10;
+    funnyTimer2 = -10;
+    countdown = 0;
+  }
 }
 
 void singlePlayer(){
@@ -339,6 +413,7 @@ void singlePlayer(){
   P1.hide();
   P2.hide();
   info.hide();
+  endless.hide();
 }
 
 void MultiPlayer(){
@@ -347,6 +422,7 @@ void MultiPlayer(){
   P1.hide();
   P2.hide();
   info.hide();
+  endless.hide();
 }
 
 void Information(){
@@ -355,6 +431,7 @@ void Information(){
   rect(10,10,980,480,40);
   P1.hide();
   P2.hide();
+  endless.hide();
   rect(35,35,60,30);
   back.show();
   info.hide();
@@ -365,6 +442,8 @@ void Information(){
   text("- the Computer (in singleplayer) also gets better as the difficulty increases",225,250);
   text("- When the ball flashes it means that it is at maximum speed.",225,300);
   text("- The game goes on forever at the moment, i have not yet implemented an ending screen.",225,350);
+  text("- press R at any time to quit the game and go to the menu screen.",225,350);
+  text("- when endless mode is disabled the game goes on until 1 plyers gets 15 points.",225,350);
 }
 
 void back(){
@@ -372,7 +451,23 @@ void back(){
   P1.show();
   P2.show();
   info.show();
+  endless.show();
   infoscreen = false;
+}
+
+void EndlessMode(){
+  if(EndlessOff && InputDelay <= 0){
+    endless.setColorBackground(color(0,255,0));
+    endless.setColorForeground(color(0,255,0));
+    EndlessOff = false;
+    InputDelay = 10;
+  }
+  if(!EndlessOff && InputDelay <= 0){
+    endless.setColorBackground(color(0,0,0));
+    endless.setColorForeground(color(0,0,0));
+    EndlessOff = true;
+    InputDelay = 10;
+  }
 }
 
 void keyPressed(){
@@ -382,6 +477,7 @@ void keyPressed(){
   //paddle 2
   if(keyCode == 38 && !single){stupidw2 = true;}
   if(keyCode == 40 && !single){stupids2 = true;}
+  if(key == 'r'){gamestart = false;}
 }
 
 void keyReleased(){
