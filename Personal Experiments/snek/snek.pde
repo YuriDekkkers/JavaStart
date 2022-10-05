@@ -1,6 +1,8 @@
 int x;
 int y;
 
+int colorok;
+
 int fruitX;
 int fruitY;
 
@@ -22,6 +24,8 @@ void setup(){
   size(600,600);
   background(255,255,255);
   fill(0,0,0);
+  colorMode(HSB,height+width,1,1);
+  
   wowArray = new int[addlength];
   damnArray = new int[addlength];
   frameRate(10);
@@ -64,28 +68,28 @@ void draw(){
   
   println(addlength);
   for(int i = 0; i < wowArray.length - 1; i++){
-    wowArray[i] = wowArray[i+1];
+    wowArray[addlength-i-1] = wowArray[addlength-i-2];
   }
-  wowArray[addlength - 1] = x;
+  wowArray[0] = x;
   
   for(int i = 0; i < damnArray.length - 1; i++){
-    damnArray[i] = damnArray[i+1];
+    damnArray[addlength-i-1] = damnArray[addlength-i-2];
   } 
-  damnArray[addlength - 1] = y;
+  damnArray[0] = y;
   
   
   
   println(wowArray);
   
-  background(255,255,255);
-  fill(0,200,255);
-  rect(wowArray[addlength - 1],damnArray[addlength - 1],40,40);
+  background(250,1,1);
+  fill(colorok,1,1);
+  rect(wowArray[0],damnArray[0],40,40,5);
   for(int i = 0; i < addlength - 1; i++){
-    fill(0,200,255);
-    rect(wowArray[i],damnArray[i],40,40);
+    fill((1200/addlength*i),1,1);
+    rect(wowArray[i],damnArray[i],40,40,5);
   }
-  fill(255,0,0);
-  rect(fruitX,fruitY,40,40);
+  fill(1024,1,1);
+  rect(fruitX,fruitY,40,40,50);
   
   if(right && !left){
     x+=40;
@@ -100,10 +104,10 @@ void draw(){
     y+=40;
   }
   
-  if(x > 580){x = 0;}
-  if(x <= -20){x = 600;}
-  if(y > 580){y = 0;}
-  if(y <= -20){y = 600;}
+  if(x > width-20){x = 0;}
+  if(x <= -20){x = width;}
+  if(y > height-20){y = 0;}
+  if(y <= -20){y = height;}
 }
 
 void keyPressed(){
