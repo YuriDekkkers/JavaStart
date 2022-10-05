@@ -4,10 +4,14 @@ int y;
 int fruitX;
 int fruitY;
 
-int snakeLength = 6;
+//int snakeLength = 6;
+int addlength = 6;
 
 int[] wowArray;
 int[] damnArray;
+
+int[] addWowArray;
+int[] addDamnArray;
 
 boolean up = false;
 boolean down = false;
@@ -18,8 +22,8 @@ void setup(){
   size(600,600);
   background(255,255,255);
   fill(0,0,0);
-  wowArray = new int[snakeLength];
-  damnArray = new int[snakeLength];
+  wowArray = new int[addlength];
+  damnArray = new int[addlength];
   frameRate(10);
   
   fruitX = floor(random(0,14)) * 40;
@@ -27,6 +31,61 @@ void setup(){
 }
 
 void draw(){
+  if(fruitX == x && fruitY == y){
+    fruitX = floor(random(0,14)) * 40;
+    fruitY = floor(random(0,14)) * 40;
+    
+    addlength ++;
+    addWowArray = new int[addlength];
+      for(int x = 0; x < wowArray.length; x++){
+        addWowArray[x] = wowArray[x];
+      }
+      
+      wowArray = new int[addlength];
+      
+      for(int x = 0; x < addWowArray.length; x++){
+        wowArray[x] = addWowArray[x];
+      }
+      wowArray[addlength-1] = addlength*10;
+      
+      addDamnArray = new int[addlength];
+      for(int x = 0; x < damnArray.length; x++){
+        addDamnArray[x] = damnArray[x];
+      }
+      
+      damnArray = new int[addlength];
+      
+      for(int x = 0; x < addDamnArray.length; x++){
+        damnArray[x] = addDamnArray[x];
+      }
+      damnArray[addlength-1] = addlength*10;
+      
+  }
+  
+  println(addlength);
+  for(int i = 0; i < wowArray.length - 1; i++){
+    wowArray[i] = wowArray[i+1];
+  }
+  wowArray[addlength - 1] = x;
+  
+  for(int i = 0; i < damnArray.length - 1; i++){
+    damnArray[i] = damnArray[i+1];
+  } 
+  damnArray[addlength - 1] = y;
+  
+  
+  
+  println(wowArray);
+  
+  background(255,255,255);
+  fill(0,0,0);
+  rect(wowArray[addlength - 1],damnArray[addlength - 1],40,40);
+  for(int i = 0; i < addlength - 1; i++){
+    fill(0,0,255/(1+i+i/2));
+    rect(wowArray[i],damnArray[i],40,40);
+  }
+  fill(255,0,0);
+  rect(fruitX,fruitY,40,40);
   
   if(right && !left){
     x+=40;
@@ -45,33 +104,6 @@ void draw(){
   if(x <= -20){x = 600;}
   if(y > 580){y = 0;}
   if(y <= -20){y = 600;}
-  
-  for(int i = 0; i < snakeLength - 1; i++){
-    wowArray[i] = wowArray[i+1];
-  }
-  wowArray[snakeLength - 1] = x;
-  
-  for(int i = 0; i < snakeLength - 1; i++){
-    damnArray[i] = damnArray[i+1];
-  } 
-  damnArray[snakeLength - 1] = y;
-  
-  if(fruitX == x && fruitY == y){
-    fruitX = floor(random(0,14)) * 40;
-    fruitY = floor(random(0,14)) * 40;
-  }
-  
-  println(fruitX);
-  println(fruitY);
-  
-  background(255,255,255);
-  fill(0,0,0);
-  rect(wowArray[snakeLength - 1],damnArray[snakeLength - 1],40,40);
-  for(int i = 0; i < snakeLength - 1; i++){
-    rect(wowArray[i],damnArray[i],40,40);
-  }
-  fill(255,0,0);
-  rect(fruitX,fruitY,40,40);
 }
 
 void keyPressed(){
