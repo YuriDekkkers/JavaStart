@@ -46,7 +46,7 @@ void draw(){
       for(int x = 0; x < addWowArray.length; x++){
         wowArray[x] = addWowArray[x];
       }
-      wowArray[addlength-1] = addlength*10;
+      wowArray[addlength - 1] = wowArray[addlength-2];
       
       addDamnArray = new int[addlength];
       for(int x = 0; x < damnArray.length; x++){
@@ -58,7 +58,7 @@ void draw(){
       for(int x = 0; x < addDamnArray.length; x++){
         damnArray[x] = addDamnArray[x];
       }
-      damnArray[addlength-1] = addlength*10;
+     damnArray[addlength-1] = damnArray[addlength-2];
       
   }
   
@@ -78,10 +78,10 @@ void draw(){
   println(wowArray);
   
   background(255,255,255);
-  fill(0,0,0);
+  fill(0,200,255);
   rect(wowArray[addlength - 1],damnArray[addlength - 1],40,40);
   for(int i = 0; i < addlength - 1; i++){
-    fill(0,0,255/(1+i+i/2));
+    fill(0,200,255);
     rect(wowArray[i],damnArray[i],40,40);
   }
   fill(255,0,0);
